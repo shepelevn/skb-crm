@@ -14,7 +14,7 @@
 
     window.addEventListener('hashchange', hashChangeHandler);
 
-    let hash = window.location.hash;
+    const hash = window.location.hash;
     if(hash) {
       applyHash(hash);
     }
@@ -26,7 +26,7 @@
   }
 
   async function applyHash(hash) {
-    let result = await showEditClientModal(hash.substring(1));
+    const result = await showEditClientModal(hash.substring(1));
 
     if(!result) window.location.hash = "";
   }
@@ -49,8 +49,8 @@
     switch(currentSortField) {
       case 'full-name': 
         list.sort((a, b) => {
-          let aStr = `${a.surname} ${a.name} ${a.lastName}`;
-          let bStr = `${b.surname} ${b.name} ${b.lastName}`;
+          const aStr = `${a.surname} ${a.name} ${a.lastName}`;
+          const bStr = `${b.surname} ${b.name} ${b.lastName}`;
 
           if(aStr > bStr) return 1;
           if(aStr < bStr) return -1;
@@ -59,15 +59,15 @@
         break;
       case 'created-at': 
         list.sort((a, b) => {
-          let aDate = Date.parse(a.createdAt);
-          let bDate = Date.parse(b.createdAt);
+          const aDate = Date.parse(a.createdAt);
+          const bDate = Date.parse(b.createdAt);
           return aDate - bDate;
         });
         break;
       case 'updated-at': 
         list.sort((a, b) => {
-          let aDate = Date.parse(a.updatedAt);
-          let bDate = Date.parse(b.updatedAt);
+          const aDate = Date.parse(a.updatedAt);
+          const bDate = Date.parse(b.updatedAt);
           return aDate - bDate;
         });
         break;
@@ -89,10 +89,10 @@
   }
 
   async function updateTable() {
-    let searchInput = document.getElementById('header-search');
-    let listDataPromise = clientsAppServerApi.loadClientsData(searchInput.value);
+    const searchInput = document.getElementById('header-search');
+    const listDataPromise = clientsAppServerApi.loadClientsData(searchInput.value);
 
-    let handlers = {};
+    const handlers = {};
     handlers.editHandler = editButtonHandler;
     handlers.deleteHandler = editModalCancelHandler;
 
@@ -106,7 +106,7 @@
   }
 
   function showNewClientModal() {
-    let data = {};
+    const data = {};
     data.title = 'Новый клиент';
     data.cancelLinkString = 'Отмена';
 
@@ -122,17 +122,17 @@
   }
 
   async function showEditClientModal(id) {
-    let response = await clientsAppServerApi.getClientItemData(id);
+    const response = await clientsAppServerApi.getClientItemData(id);
     let clientData;
 
     if(response.ok) clientData = await response.json();
     else return false;
 
-    let data = {};
+    const data = {};
     data.title = 'Изменить данные';
     data.cancelLinkString = 'Удалить клиента';
 
-    let cancelHandler = function () {
+    const cancelHandler = function () {
       clientsAppRender.hideMainModal();
       showDeleteClientModal(clientData.id);
     }
@@ -152,22 +152,22 @@
   }
 
   async function editClient(data, id) {
-    let response = await clientsAppServerApi.patchClientItemData(data, id);
+    const response = await clientsAppServerApi.patchClientItemData(data, id);
     return processResponse(response);
   }
 
   async function deleteClient(id) {
-    let response = await clientsAppServerApi.removeClientItemData(id);
+    const response = await clientsAppServerApi.removeClientItemData(id);
     return processResponse(response);
   }
 
   async function addNewClient(data) {
-    let response = await clientsAppServerApi.createClientItemData(data);
+    const response = await clientsAppServerApi.createClientItemData(data);
     return processResponse(response);
   }
 
   function mainInputValidation(value, name, flags) {
-    let result = {};
+    const result = {};
     result.ok = true;
 
     if(flags.required && !value.trim()) {
@@ -179,7 +179,7 @@
   }
 
   function contactInputValidation(type, value, flags) {
-    let result = {};
+    const result = {};
     result.ok = true;
 
     if(flags.required && !value.trim()) {
@@ -215,11 +215,11 @@
       case 404:
         return 'Запрашиваемый элемент не найден';
       case 422:
-        let body = await response.json();
-        let errors = await body.errors;
+        const body = await response.json();
+        const errors = await body.errors;
         let errorMessage = '';
 
-        for(let error of errors) {
+        for(const error of errors) {
           errorMessage += 'Ошибка: ' + error.message + '<br>';
         }
         return errorMessage;

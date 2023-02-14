@@ -8,12 +8,12 @@
   let deleteModal;
   let currentSortLink;
 
-  let contactTypeDOMData = {
+  const contactTypeDOMData = {
     'phone': {
       src: 'images/phone.svg', 
       alt: 'Телефон', 
       tooltip: (string) => {
-        // let d = dataString;
+        // const d = dataString;
         // return `${d.substring(0, 2)}(${d.substring(3, 6)}) ${d.substring(7, 10)}-${d.substring(11-13)}-${d.substring(14-16)}`;
         return `Телефон: ${renderTooltipHighlight(string)}`;
       }, 
@@ -54,20 +54,20 @@
 
   window.clientsAppRender.init = function (handlers) {
     // Init search input
-    let searchInput = document.getElementById('header-search');
+    const searchInput = document.getElementById('header-search');
     searchInput.addEventListener('input', handlers.searchInputChange)
 
     // Init add client button
-    let addButton = document.getElementById('add-client-button');
+    const addButton = document.getElementById('add-client-button');
     addButton.addEventListener('click', handlers.showNewClientModal)
 
     // Init add contact button
-    let addContactButton = document.getElementById('add-contact');
+    const addContactButton = document.getElementById('add-contact');
     addContactButton.addEventListener('click', newContact)
 
     // Init sort buttons
-    let sortButtons = document.querySelectorAll('.sort');
-    for(let sortButton of sortButtons) {
+    const sortButtons = document.querySelectorAll('.sort');
+    for(const sortButton of sortButtons) {
       sortButton.addEventListener('click', createSetSortHandler(handlers.setSort));
     }
     currentSortLink = document.querySelector('.sort_set');
@@ -76,39 +76,39 @@
     mainModal = new bootstrap.Modal(document.getElementById('main-modal'));
     document.getElementById('main-modal')
       .addEventListener('hide.bs.modal', () => {
-        let form = document.querySelector('.modal__form');
+        const form = document.querySelector('.modal__form');
         form.removeEventListener('submit', form.listener)
       });
 
     deleteModal = new bootstrap.Modal(document.getElementById('delete-modal'));
     document.getElementById('delete-modal')
       .addEventListener('hide.bs.modal', () => {
-        let deleteButton = document.getElementById('modal-delete-button');
+        const deleteButton = document.getElementById('modal-delete-button');
         deleteButton.removeEventListener('click', deleteButton.listener);
       });
   }
 
   window.clientsAppRender.renderTable = function (listData, handlers) {
     // Remove old rows
-    let rows = document.querySelectorAll('.clients__row');
-    for(let row of rows) row.remove();
+    const rows = document.querySelectorAll('.clients__row');
+    for(const row of rows) row.remove();
 
     // Add new rows
-    let rowEmpty = document.querySelector('.clients__empty-row');
+    const rowEmpty = document.querySelector('.clients__empty-row');
 
-    for(let listItem of listData) {
-      let newRow = renderClientRow(listItem, handlers);
+    for(const listItem of listData) {
+      const newRow = renderClientRow(listItem, handlers);
       rowEmpty.before(newRow);
     }
   }
 
   window.clientsAppRender.setListLoading = function () {
-    let table = document.querySelector('.clients__table-responsive');
+    const table = document.querySelector('.clients__table-responsive');
     table.classList.add('clients__table-responsive_loading');
   }
 
   window.clientsAppRender.unsetListLoading = function () {
-    let table = document.querySelector('.clients__table-responsive');
+    const table = document.querySelector('.clients__table-responsive');
     table.classList.remove('clients__table-responsive_loading');
   }
 
@@ -123,16 +123,16 @@
   window.clientsAppRender.showMainModal = function (data, handlers, validators, clientData = null) {
     resetMainFormValidation();
 
-    let modal = document.getElementById('main-modal');
+    const modal = document.getElementById('main-modal');
 
-    let title = modal.querySelector('.modal__title');
+    const title = modal.querySelector('.modal__title');
     title.innerText = data.title;
 
-    let inputs = document.querySelectorAll('.modal__input .secondary-input__input');
-    let idDiv = modal.querySelector('.modal__id');
-    let contacts = modal.querySelectorAll('.contact');
+    const inputs = document.querySelectorAll('.modal__input .secondary-input__input');
+    const idDiv = modal.querySelector('.modal__id');
+    const contacts = modal.querySelectorAll('.contact');
 
-    for(let contactDiv of contacts) contactDiv.remove();
+    for(const contactDiv of contacts) contactDiv.remove();
 
     if(clientData) {
       inputs[0].value = clientData.surname;
@@ -140,27 +140,27 @@
       inputs[2].value = clientData.lastName;
 
       idDiv.innerHTML = `<span class="nowrap">ID: ${clientData.id}</span>`;
-      for(let contact of clientData.contacts) {
+      for(const contact of clientData.contacts) {
         addContact(contact);
       }
     } else {
-      for(let input of inputs) input.value = '';
+      for(const input of inputs) input.value = '';
 
       idDiv.innerText = '';
     }
 
     checkContactsCount();
 
-    let cancelLink = modal.querySelector('.modal__cancel');
+    const cancelLink = modal.querySelector('.modal__cancel');
     cancelLink.innerText = data.cancelLinkString;
     cancelLink.removeEventListener('click', cancelLink.listener)
     cancelLink.listener = handlers.cancelHandler;
     cancelLink.addEventListener('click', handlers.cancelHandler);
 
     // Add event listeners
-    let form = modal.querySelector('.modal__form');
+    const form = modal.querySelector('.modal__form');
 
-    let id = clientData ? clientData.id : undefined;
+    const id = clientData ? clientData.id : undefined;
 
     cancelLink.clientId = id;
 
@@ -175,8 +175,8 @@
   }
 
   window.clientsAppRender.showDeleteClientModal = function (id, deleteClient) {
-    let modal = document.getElementById('delete-modal');
-    let confirmButton = modal.querySelector('.modal__save');
+    const modal = document.getElementById('delete-modal');
+    const confirmButton = modal.querySelector('.modal__save');
     confirmButton.listener = createDeleteClientHandler(id, deleteClient);
     confirmButton.addEventListener('click', confirmButton.listener);
 
@@ -184,8 +184,8 @@
   }
 
   function renderContactLinks(contacts, renderAllContacts = false) {
-    let linksArray = [];
-    for(let [key, contact] of contacts.entries()) {
+    const linksArray = [];
+    for(const [key, contact] of contacts.entries()) {
       if(!renderAllContacts && contacts.length > (MAX_CONTACTS_VISIBLE + 1) && key >= MAX_CONTACTS_VISIBLE) {
         linksArray.push(renderContactsEtcLink(contacts));
         break;
@@ -197,7 +197,7 @@
   }
 
   function renderClientRow(data, handlers) {
-    let row = htmlToElement(`
+    const row = htmlToElement(`
       <tr class="clients__row">
         <td class="clients__td">
           <span class="clients__id">
@@ -248,17 +248,17 @@
     `);
 
     // Add contact links
-    let contactsDiv = row.querySelector('.clients__contacts');
+    const contactsDiv = row.querySelector('.clients__contacts');
     contactsDiv.innerHTML = '';
-    let contactLinks = renderContactLinks(data.contacts);
-    for(let contactLink of contactLinks) {
+    const contactLinks = renderContactLinks(data.contacts);
+    for(const contactLink of contactLinks) {
       contactsDiv.append(contactLink);
     }
 
     // Add event listeners
-    let editButton = row.querySelector('.clients__edit');
+    const editButton = row.querySelector('.clients__edit');
     editButton.clientId = data.id;
-    let deleteButton = row.querySelector('.clients__delete');
+    const deleteButton = row.querySelector('.clients__delete');
     deleteButton.clientId = data.id;
     editButton.addEventListener('click', handlers.editHandler);
     deleteButton.addEventListener('click', handlers.deleteHandler);
@@ -267,7 +267,7 @@
   }
 
   function renderContactsEtcLink(contacts) {
-    let etcLink = htmlToElement(`
+    const etcLink = htmlToElement(`
       <a class="clients__contact contact-link" href="" aria-label="Показать остальные контакты">
         <div class="clients__contact-etc contact-link__etc clients__contact svg">
           +${contacts.length - 4}
@@ -280,18 +280,18 @@
   }
 
   function renderContactLink(contactData) {
-    let contactLink = htmlToElement(`
+    const contactLink = htmlToElement(`
       <a class="clients__contact contact-link">
         <img class="contact-link__icon svg">
       </a>
     `);
 
-    let icon = contactLink.querySelector('.contact-link__icon');
+    const icon = contactLink.querySelector('.contact-link__icon');
 
     icon.src = contactTypeDOMData[contactData.type].src;
     icon.alt = contactTypeDOMData[contactData.type].alt;
     contactLink.href = contactTypeDOMData[contactData.type].href + contactData.value;
-    let tooltipMessage = contactTypeDOMData[contactData.type].tooltip(contactData.value);
+    const tooltipMessage = contactTypeDOMData[contactData.type].tooltip(contactData.value);
     contactLink.setAttribute('aria-description', contactData.value);
 
     // Add tooltip
@@ -304,7 +304,7 @@
   }
 
   function renderContact(contactData) {
-    let contact = htmlToElement(`
+    const contact = htmlToElement(`
       <div class="contacts__contact contact">
         <select class="contact__select contact-select" aria-label="Выберите тип контакта">
           <option value="phone">
@@ -339,7 +339,7 @@
       </div>
     `);
 
-    let select = contact.querySelector('.contact__select');
+    const select = contact.querySelector('.contact__select');
     select.value = contactData.type;
     setInputMask(select);
     select.addEventListener('change', contactSelectChangedHandler);
@@ -364,10 +364,10 @@
       },
     });
 
-    let input = contact.querySelector('.contact__input');
+    const input = contact.querySelector('.contact__input');
     input.value = contactData.value;
 
-    let deleteButton = contact.querySelector('.contact__delete');
+    const deleteButton = contact.querySelector('.contact__delete');
     deleteButton.addEventListener('click', removeContact);
 
     deleteButton.tippyInstance = tippy(deleteButton, {
@@ -393,10 +393,10 @@
     return function (event) {
       event.preventDefault();
 
-      let contactsDiv = this.parentElement;
+      const contactsDiv = this.parentElement;
       contactsDiv.innerHTML = '';
-      let contactLinks = renderContactLinks(contacts, true);
-      for(let contactLink of contactLinks) {
+      const contactLinks = renderContactLinks(contacts, true);
+      for(const contactLink of contactLinks) {
         contactsDiv.append(contactLink);
       }
     }
@@ -404,7 +404,7 @@
 
   function createSetSortHandler(setSort) {
     return function () {
-      let isReverse = setSort(this.dataset.field);
+      const isReverse = setSort(this.dataset.field);
 
       currentSortLink.classList.remove('sort_set_reverse');
       currentSortLink.classList.remove('sort_set');
@@ -426,7 +426,7 @@
     return async function (event) {
       event.preventDefault();
 
-      let resultClient = {};
+      const resultClient = {};
       resultClient.name = document.getElementById('modal-edit-name').value;
       resultClient.surname = document.getElementById('modal-edit-surname').value;
       resultClient.lastName = document.getElementById('modal-edit-lastname').value;
@@ -437,65 +437,65 @@
         return;
       }
 
-      let modal = document.getElementById('main-modal');
+      const modal = document.getElementById('main-modal');
       setModalLoading(modal);
 
-      let responseText = await postDataFunction(resultClient, id);
+      const responseText = await postDataFunction(resultClient, id);
 
       unsetModalLoading(modal);
 
       if(responseText === '') {
         mainModal.hide();
       } else {
-        let errorDiv = modal.querySelector('.modal__error');
+        const errorDiv = modal.querySelector('.modal__error');
         errorDiv.innerHTML = responseText;
       }
     }
   }
 
   function resetMainFormValidation() {
-    let form = document.querySelector('.modal__form');
+    const form = document.querySelector('.modal__form');
 
     // Reset inputs
-    let inputs = form.querySelectorAll('input');
-    for(let input of inputs) {
+    const inputs = form.querySelectorAll('input');
+    for(const input of inputs) {
       input.classList.remove('is-invalid');
     }
     // Reset error messages
-    let errorDiv = form.querySelector('.modal__error');
+    const errorDiv = form.querySelector('.modal__error');
     errorDiv.innerHTML = '';
   }
 
   function checkMainFormValidation(validators) {
     resetMainFormValidation();
 
-    let form = document.querySelector('.modal__form');
+    const form = document.querySelector('.modal__form');
 
     let isValid = true;
 
-    let formInputs = form.querySelectorAll('.modal__input input');
+    const formInputs = form.querySelectorAll('.modal__input input');
 
-    for(let input of formInputs) {
-      let value = input.value;
-      let name = input.dataset.name;
-      let required = input.classList.contains('input-required');
-      let result = validators.mainInput(value, name, { required });
+    for(const input of formInputs) {
+      const value = input.value;
+      const name = input.dataset.name;
+      const required = input.classList.contains('input-required');
+      const result = validators.mainInput(value, name, { required });
       if(!result.ok) {
         isValid = false;
         setInputInvalid(input, result.message)
       }
     }
 
-    let contacts = document.querySelectorAll('.contact');
+    const contacts = document.querySelectorAll('.contact');
 
-    for(let contact of contacts) {
-      let input = contact.querySelector('.contact__input');
+    for(const contact of contacts) {
+      const input = contact.querySelector('.contact__input');
 
-      let type = contact.querySelector('.contact__select select').value;
-      let value = input.value;
-      let required = input.classList.contains('input-required');
+      const type = contact.querySelector('.contact__select select').value;
+      const value = input.value;
+      const required = input.classList.contains('input-required');
 
-      let result = validators.contactInput(type, value, { required });
+      const result = validators.contactInput(type, value, { required });
       if(!result.ok) {
         isValid = false;
         setInputInvalid(input, result.message)
@@ -509,8 +509,8 @@
     input.classList.add('is-invalid');
     input.focus();
 
-    let modal = input.closest('.modal');
-    let errorDiv = modal.querySelector('.modal__error');
+    const modal = input.closest('.modal');
+    const errorDiv = modal.querySelector('.modal__error');
     errorDiv.innerHTML += message + '</br>';
   }
 
@@ -538,8 +538,8 @@
   }
 
   function addContact(contactData) {
-    let newContact = renderContact(contactData);
-    let addContactButton = document.querySelector('.contacts__add-button');
+    const newContact = renderContact(contactData);
+    const addContactButton = document.querySelector('.contacts__add-button');
 
     addContactButton.before(newContact)
 
@@ -547,9 +547,9 @@
   }
 
   function removeContact() {
-    let contact = this.parentElement;
+    const contact = this.parentElement;
 
-    let deleteButton = contact.querySelector('.contact__delete');
+    const deleteButton = contact.querySelector('.contact__delete');
     deleteButton.tippyInstance.hide();
 
     contact.remove();
@@ -557,8 +557,8 @@
   }
 
   function checkContactsCount() {
-    let contacts = document.querySelectorAll('.contact');
-    let addContactButton = document.querySelector('.contacts__add-button');
+    const contacts = document.querySelectorAll('.contact');
+    const addContactButton = document.querySelector('.contacts__add-button');
 
     if(contacts.length > (MAX_CONTACTS - 1)) {
       addContactButton.classList.add('contacts__add-button_disabled');
@@ -568,16 +568,16 @@
   }
 
   function setInputMask(select) {
-    let contact = select.closest('.contact');
-    let input = contact.querySelector('.contact__input');
+    const contact = select.closest('.contact');
+    const input = contact.querySelector('.contact__input');
 
     switch(select.value) {
       case 'phone':
-        let phoneMask = new Inputmask('+9 (999) 999-99-99');
+        const phoneMask = new Inputmask('+9 (999) 999-99-99');
         phoneMask.mask(input);
         break;
       case 'email':
-        let mailMask = new Inputmask('email');
+        const mailMask = new Inputmask('email');
         mailMask.mask(input);
         break;
       default:
@@ -586,12 +586,12 @@
   }
 
   function getContactsArray(container) {
-    let contacts = container.querySelectorAll('.contact');
-    let contactsArray = [];
+    const contacts = container.querySelectorAll('.contact');
+    const contactsArray = [];
 
-    for(let contact of contacts) {
-      let type = contact.querySelector('.contact__select .choices__input').value;
-      let value = contact.querySelector('.contact__input').value;
+    for(const contact of contacts) {
+      const type = contact.querySelector('.contact__select .choices__input').value;
+      const value = contact.querySelector('.contact__input').value;
       contactsArray.push({ type, value });
     }
 
@@ -606,16 +606,16 @@
   }
 
   function getDate(dateString) {
-    let date = new Date(dateString);
-    let day = date.getDate().toString().padStart(2, '0');
-    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-    let year = date.getFullYear();
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
 
     return `${day}.${month}.${year}`;
   }
 
   function getTime(dateString) {
-    let date = new Date(dateString);
+    const date = new Date(dateString);
     return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
   }
 

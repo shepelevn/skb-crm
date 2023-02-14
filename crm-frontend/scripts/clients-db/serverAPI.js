@@ -7,7 +7,7 @@
   const SEARCH_PARAMETER_NAME = 'search';
 
   window.clientsAppServerApi.removeClientItemData = function removeClientItemData(removeId) {
-    let response = fetch(`${SERVER_URL}/${removeId}`, {
+    const response = fetch(`${SERVER_URL}/${removeId}`, {
       method: 'DELETE', 
     });
 
@@ -15,31 +15,31 @@
   }
 
   window.clientsAppServerApi.patchClientItemData = async function patchClientItemData(clientObjectData, id) {
-    let response = await fetch(`${SERVER_URL}/${id}`, {
+    const response = await fetch(`${SERVER_URL}/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(clientObjectData)
     });
 
-    // let itemData = await response.json();
+    // const itemData = await response.json();
 
     return response;
   }
 
   window.clientsAppServerApi.createClientItemData = async function createClientItemData(clientObjectData) {
-    let response = await fetch(`${SERVER_URL}`, {
+    const response = await fetch(`${SERVER_URL}`, {
       method: 'POST', 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(clientObjectData), 
     });
 
-    // let itemData = await response.json();
+    // const itemData = await response.json();
 
     return response;
   }
 
   window.clientsAppServerApi.getClientItemData = async function getClientItemData(id) {
-    let url = `${SERVER_URL}/${id}`;
+    const url = `${SERVER_URL}/${id}`;
 
     const response = await fetch(url);
 
