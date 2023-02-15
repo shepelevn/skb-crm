@@ -7,6 +7,7 @@
   let mainModal;
   let deleteModal;
   let currentSortLink;
+  let currentEditButtonLoading;
 
   const contactTypeDOMData = {
     'phone': {
@@ -46,8 +47,10 @@
     }, 
     'other': {
       src: 'images/other.svg', 
-      alt: 'Контакт', 
-      tooltip: (string) => string, 
+      alt: 'Скопировать контакт', 
+      tooltip: (string) => {
+        return 'Скопировать: ' + renderTooltipHighlight(string);
+      }, 
       href: '', 
     }, 
   };
@@ -113,11 +116,13 @@
   }
 
   window.clientsAppRender.setEditLoading = function(button) {
+    currentEditButtonLoading = button;
     button.classList.add('edit_loading');
   }
 
-  window.clientsAppRender.unsetEditLoading = function(button) {
-    button.classList.remove('edit_loading');
+  window.clientsAppRender.unsetEditLoading = function() {
+    if(currentEditButtonLoading)
+      currentEditButtonLoading.classList.remove('edit_loading');
   }
 
   window.clientsAppRender.showMainModal = function (data, handlers, validators, clientData = null) {
@@ -164,6 +169,7 @@
 
     cancelLink.clientId = id;
 
+    form.removeEventListener('submit', form.listener);
     form.listener = createModalSubmitHandler(handlers.submitHandler, validators, id);
     form.addEventListener('submit', form.listener);
 
@@ -291,6 +297,17 @@
     icon.src = contactTypeDOMData[contactData.type].src;
     icon.alt = contactTypeDOMData[contactData.type].alt;
     contactLink.href = contactTypeDOMData[contactData.type].href + contactData.value;
+
+    if(contactData.type === 'other') {
+      contactLink.href = '';
+
+      contactLink.contact = contactData.value;
+      contactLink.addEventListener('click', copyToClipboard);
+      contactLink.addEventListener('keypress', (event) => {
+        if(event.key === 'Enter') copyToClipboard(event);
+      })
+    }
+
     const tooltipMessage = contactTypeDOMData[contactData.type].tooltip(contactData.value);
     contactLink.setAttribute('aria-description', contactData.value);
 
@@ -301,6 +318,13 @@
     });
 
     return contactLink;
+  }
+
+  function copyToClipboard(event) {
+    event.preventDefault();
+
+    let text = event.currentTarget.contact;
+    navigator.clipboard.writeText(text);
   }
 
   function renderContact(contactData) {

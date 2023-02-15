@@ -116,17 +116,20 @@
   async function editButtonHandler() {
     clientsAppRender.setEditLoading(this);
 
-    await showEditClientModal(this.clientId);
+    if(window.location.hash === '#' + this.clientId)
+      showEditClientModal(this.clientId);
+    else 
+      window.location.hash = this.clientId;
 
-    clientsAppRender.unsetEditLoading(this);
   }
 
   async function showEditClientModal(id) {
     const response = await clientsAppServerApi.getClientItemData(id);
-    let clientData;
+      let clientData = await response.json();
 
-    if(response.ok) clientData = await response.json();
-    else return false;
+    clientsAppRender.unsetEditLoading();
+
+    if(!response.ok) return false;
 
     const data = {};
     data.title = 'Изменить данные';
@@ -136,8 +139,6 @@
       clientsAppRender.hideMainModal();
       showDeleteClientModal(clientData.id);
     }
-
-    window.location.hash = clientData.id;
 
     clientsAppRender.showMainModal(data, { submitHandler: editClient, cancelHandler }, { mainInput: mainInputValidation, contactInput: contactInputValidation }, clientData);
     return true;
