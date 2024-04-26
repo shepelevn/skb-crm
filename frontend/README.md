@@ -1,18 +1,24 @@
-# skb. CRM система
+# skb. CRM system
 
-Front-end часть базы данных клиентов
+Frontend part of the clients database
 
-## Функционал
+## README.md
 
-* Просмотр списка клиентов
-* Поиск по подстроке
-* Изменение, удаление и редактирование данных
-* Сортировка по полю таблицы
+* en [English](../README.md)
+* ru [Русский](README.ru.md)
 
-## Установка и запуск проекта
+## Features
 
-1. Склонируйте репозиторий с помощью команды
+* Viewing clients list
+* Substring search
+* Editing and deletion of clients data
+* Sorting by table field
+
+## Installation and launch
+
+1. Clone the repository by running
    `git clone https://github.com/shepelevn/skb-crm.git skb-crm`
-2. Для работы приложения нужно запустить серверную часть в папке `backend`.
-   Информация по запуску написана в README.md в папке `backend`.
-3. Запустить локальный сервер в папке `frontend/public`
+2. For the application to work, you need to launch the API server in
+   the `backend` folder. Information about setting up the server is in
+   README.md in the `backend` folder
+3. Run local dev server in the `frontend/public` folder
