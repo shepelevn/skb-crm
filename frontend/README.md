@@ -4,8 +4,8 @@ Frontend part of the clients database
 
 ## README.md
 
-* en [English](../README.md)
-* ru [Русский](README.ru.md)
+* en [English](README.md)
+* ru [Русский](./readme/README.ru.md)
 
 ## Features
 
