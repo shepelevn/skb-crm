@@ -1,4 +1,4 @@
-# skb. CRM system
+# skb. CRM system. Frontend
 
 Frontend part of the clients database
 
