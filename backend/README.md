@@ -1,93 +1,102 @@
 # skb. CRM system. Backend
 
-REST API для базы данных клиентов "skb."
+REST API for CRM "skb."
 
-Перед запуском убедитесь, что вы установили Node.js версии 12 или выше.
+## README.md
 
-Для запуска сервера перейдите в папку с репозиторием и выполните команду
-`node index`. Для остановки нажмите сочетание клавиш `CTRL+C`.
+* en [English](README.md)
+* ru [Русский](readme/README.ru.md)
 
-После запуска сервера API будет доступен по пути `http://localhost:3000`.
+Before launching make sure, you have Node.js version 12 or higher installed.
 
-## Методы API
+To launch server got into the backend directory and run `node index`.
+To stop the server press `CTRL+C`.
 
-Все методы API, требующие тела запроса, ожидают получить тело в виде JSON.
-Ответы всех методов также отдаются в виде JSON.
+After launch the server is available on `http://localhost:3000`
 
-* `GET /api/clients` получить список клиентов.
-  Параметры, передаваемые в URL:
-  * `search={search string}` поисковый запрос, при передаче метод
-    вернёт клиентов, у которых имя, фамилия, отчество или значение одного
-    из контактов содержат указанную подстроку
-* `POST /api/clients` создать нового клиента. В теле запроса нужно
-  передать объект клиента. Тело ответа успешно обработанного запроса
-  будет содержать объект с созданным клиентом.
-* `GET /api/client/{id}` получить данные клиента по его ID. Тело ответа
-  успешно обработанного запроса будет содержать объект клиента.
-* `PATCH /api/client/{id}` перезаписать данные о клиенте с переданным ID.
-  Тело ответа успешно обработанного запроса будет содержать объект
-  с обновлённым клиентом.
-* `DELETE /api/client/{id}` удалить клиента с переданному ID.
+## API methods
 
-## Структура объекта клиента
+All methods use JSON for request and response data.
+
+* `GET /api/clients` get clients list.
+  Parameters passed in URL:
+  * `search={search string}` search query, when passed method returns clients
+    whose full name or value of one of contacts contains search string
+    inside of it.
+* `POST /api/clients` create new client. Inside the body you have to pass
+  client object. Body of successfully processed request will contain object
+  with created client.
+* `GET /api/client/{id}` get client data by his ID. Successful response
+  body will contain client object.
+* `PATCH /api/client/{id}` edit client with ID data. Successful response
+  body will contain client object with updated data.
+* `DELETE /api/client/{id}` delete client with passed ID.
+
+## Client object structure
 
 ```javascript
 {
-  // ID клиента, заполняется сервером автоматически, после создания нельзя изменить
+  /*
+    Client ID, created by server automatically, it's not possible to 
+    change it
+  */
   id: '1234567890',
   /*
-    дата и время создания клиента, заполняется сервером автоматически
-    после их создания нельзя изменить
+    Date and time of client creation, created by server automatically,
+    can't be changed
   */
   createdAt: '2021-02-03T13:07:29.554Z',
   /*
-    дата и время изменения клиента, заполняется сервером автоматически
-    при изменении клиента
+    Date and time of client data update, created by server automatically,
+    can't be changed
   */
   updatedAt: '2021-02-03T13:07:29.554Z',
-  // * обязательное поле, имя клиента
-  name: 'Василий',
-  // * обязательное поле, фамилия клиента
-  surname: 'Пупкин',
-  // необязательное поле, отчество клиента
-  lastName: 'Васильевич',
-  // контакты - необязательное поле, массив контактов
+  // * Required field, client name
+  name: 'John',
+  // * Required field, client surname
+  surname: 'Smith',
+  // Optional field, client patronymic
+  lastName: 'Peterson',
+  // Contacts - optional field, contacts array
   /*
-    каждый объект в массиве (если он передан) должен содержать
-    непустые свойства type и value
+    Every object in array (if it's passed) should contain
+    non-empty properties type and value
   */
   contacts: [
     {
-      type: 'Телефон',
+      type: 'phone',
       value: '+71234567890'
     },
     {
-      type: 'Email',
+      type: 'email',
       value: 'abc@xyz.com'
     },
     {
-      type: 'Facebook',
+      type: 'facebook',
       value: 'https://facebook.com/vasiliy-pupkin-the-best'
     }
   ]
 }
 ```
 
-## Возможные статусы ответов
+## Possible response status codes
 
-Ответ сервера может содержать один из статусов ответа:
-* `200` - запрос обработан нормально
-* `201` - запрос на создание нового элемента успешно обработан, а
-  заголовок ответа Location содержит ссылку на GET метод получения
-  созданного элемента
-* `404` - переданный в запросе метод не существует или запрашиваемый элемент не найден в базе данных
-* `422` - объект, переданный в теле запроса, не прошёл валидацию. Тело ответа содержит массив с описаниями ошибок валидации:
+Server response can contain on of this response statuses:
+
+* `200` - request processed successfully
+* `201` - request successfully processed and header Location contains
+  link to created resource
+* `404` - Requested method or resource is not found
+* `422` - object passed in body didn't pass validation. Response body
+  contains array with validation error descriptions:
+
   ```javascript
   [
     {
-      field: 'Название поля объекта, в котором произошла ошибка',
-      message: 'Сообщение об ошибке, которое можно показать пользователю'
+      field: 'Object field name, which triggered error',
+      message: 'Error message, which can be shown to user'
     }
   ]
   ```
-* `500` - странно, но сервер сломался :(<br>Обратитесь к куратору Skillbox, чтобы решить проблему
+
+* `500` - Server error
