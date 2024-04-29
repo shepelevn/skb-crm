@@ -18,19 +18,19 @@ After launch the server is available on `http://localhost:3000`
 
 All methods use JSON for request and response data.
 
-* `GET /api/clients` get clients list.
+* `GET /api/clients` - get clients list.
   Parameters passed in URL:
-  * `search={search string}` search query, when passed method returns clients
+  * `search={search string}` - search query, when passed method returns clients
     whose full name or value of one of contacts contains search string
     inside of it.
-* `POST /api/clients` create new client. Inside the body you have to pass
+* `POST /api/clients` - create new client. Inside the body you have to pass
   client object. Body of successfully processed request will contain object
   with created client.
-* `GET /api/client/{id}` get client data by his ID. Successful response
+* `GET /api/client/{id}` - get client data by his ID. Successful response
   body will contain client object.
-* `PATCH /api/client/{id}` edit client with ID data. Successful response
+* `PATCH /api/client/{id}` - edit client with ID data. Successful response
   body will contain client object with updated data.
-* `DELETE /api/client/{id}` delete client with passed ID.
+* `DELETE /api/client/{id}` - delete client with passed ID.
 
 ## Client object structure
 
