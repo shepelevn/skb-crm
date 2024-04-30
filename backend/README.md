@@ -7,26 +7,26 @@ REST API for CRM "skb."
 * en [English](README.md)
 * ru [Русский](readme/README.ru.md)
 
-Before launching make sure, you have Node.js version 12 or higher installed.
+Before launching, make sure you have Node.js version 12 or higher installed.
 
-To launch server got into the backend directory and run `node index`.
+To launch server go into the backend directory and run `node index`.
 To stop the server press `CTRL+C`.
 
-After launch the server is available on `http://localhost:3000`
+After launch, the server is available on `http://localhost:3000`
 
 ## API methods
 
 All methods use JSON for request and response data.
 
-* `GET /api/clients` - get clients list.
+* `GET /api/clients` - get a list of clients.
   Parameters passed in URL:
   * `search={search string}` - search query, when passed method returns clients
-    whose full name or value of one of contacts contains search string
+    whose full name or value of one of contacts contains the search string
     inside of it.
-* `POST /api/clients` - create new client. Inside the body you have to pass
+* `POST /api/clients` - create a new client. Inside the body you have to pass
   client object. Body of successfully processed request will contain object
   with created client.
-* `GET /api/client/{id}` - get client data by his ID. Successful response
+* `GET /api/client/{id}` - get client data by their ID. Successful response
   body will contain client object.
 * `PATCH /api/client/{id}` - edit client with ID data. Successful response
   body will contain client object with updated data.
@@ -37,7 +37,7 @@ All methods use JSON for request and response data.
 ```javascript
 {
   /*
-    Client ID, created by server automatically, it's not possible to 
+    Client ID, created by server automatically, it's not possible to
     change it
   */
   id: '1234567890',
@@ -55,7 +55,7 @@ All methods use JSON for request and response data.
   name: 'John',
   // * Required field, client surname
   surname: 'Smith',
-  // Optional field, client patronymic
+  // Optional field, client middle name
   lastName: 'Peterson',
   // Contacts - optional field, contacts array
   /*
@@ -81,7 +81,7 @@ All methods use JSON for request and response data.
 
 ## Possible response status codes
 
-Server response can contain on of this response statuses:
+Server response can contain one of this response statuses:
 
 * `200` - request processed successfully
 * `201` - request successfully processed and header Location contains
