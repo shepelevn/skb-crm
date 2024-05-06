@@ -22,3 +22,9 @@ Frontend part of the clients database
    the `backend` folder. Information about setting up the server is in
    README.md in the `backend` folder
 3. Run local dev server in the `frontend/public` folder
+
+## Technologies used in the project
+
+* HTML
+* CSS
+* JavaScript
