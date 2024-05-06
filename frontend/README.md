@@ -9,9 +9,9 @@ Frontend part of the clients database
 
 ## Features
 
-* Viewing clients list
+* View clients list
 * Substring search
-* Editing and deletion of clients data
+* Edit and delete clients data
 * Sorting by table field
 
 ## Installation and launch
@@ -21,7 +21,7 @@ Frontend part of the clients database
 2. For the application to work, you need to launch the API server in
    the `backend` folder. Information about setting up the server is in
    README.md in the `backend` folder
-3. Run local dev server in the `frontend/public` folder
+3. Run a local dev server in the `frontend/public` folder
 
 ## Technologies used in the project
 
